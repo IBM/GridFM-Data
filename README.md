@@ -54,15 +54,17 @@ python dist_generate_pf_data.py --config path/to/config.yaml --data_path /path/t
 |--------------------------|------------------------------|----------|-----------------------------------------------------------------------------------------------------|
 | **network**              | `name`                       | str      | Name of the power grid network.                                                                     |
 |                          | `source`                     | str      | Data source for the grid; options: `pglib`, `pandapower`, `file`.                                  |
-| **load**                 | `generator`                  | str      | Name of the load generator; options: `agg_load_profile`, `powergraph`.                             |
+| **load**                 | `generator`                  | str      | Name of the load generator; options: `agg_load_profile`, `powergraph`, `correlated_scaler`.                             |
 |                          | `agg_profile`                | str      | Name of the aggregated load profile; used when `generator` is `agg_load_profile`.                   |
 |                          | `scenarios`                  | int      | Number of different load scenarios to generate.                                                     |
-|                          | `sigma`                      | float    | Max local noise; used when `generator` is `agg_load_profile`.                                     |
+|                          | `sigma`                      | float    | Max local noise; used when `generator` is `agg_load_profile` or `correlated_scaler`.                                     |
 |                          | `change_reactive_power`      | bool     | If true, changes reactive power of loads. If false, keeps the ones from the case file. Used when `generator` is `agg_load_profile`. |
 |                          | `global_range`               | float    | Range of the global scaling factor. Used to set the lower bound of the scaling factor. Used when `generator` is `agg_load_profile`. |
 |                          | `max_scaling_factor`         | float    | Max upper bound of the global scaling factor. Used when `generator` is `agg_load_profile`.        |
 |                          | `step_size`                  | float    | Step size when finding the upper bound of the global scaling factor. Used when `generator` is `agg_load_profile`. |
 |                          | `start_scaling_factor`       | float    | Initial value of the global scaling factor. Used when `generator` is `agg_load_profile`.          |
+|                          | `upper_limit`       | float    | Global upper bound for grid. Used when `generator` is `correlated_scaler`.          |
+|                          | `lower_limit`       | float    | Global lower bound for grid. Used when `generator` is `correlated_scaler`.          |
 | **topology_perturbation**| `type`                       | str      | Type of topology generator; options: `n_minus_k`, `random`, `overloaded`, `none`.                  |
 |                          | `k`                          | int      | Maximum number of components to drop in each perturbation; used when `type` is `n_minus_k` or `random`. |
 |                          | `n_topology_variants`        | int      | Number of unique perturbed topologies per scenario; used when `type` is `n_minus_k`, `random`, or `overloaded`. |
