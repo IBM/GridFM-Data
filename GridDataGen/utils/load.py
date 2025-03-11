@@ -324,3 +324,64 @@ class Powergraph(LoadScenarioGeneratorBase):
         )
 
         return load_profiles
+    
+class LoadScenariosFromCorrelatedScaling(LoadScenarioGeneratorBase):
+    """Load scenario generator using correlated load profiles."""
+
+    def __init__(
+        self,
+        sigma,
+        u, 
+        l
+    ):
+        self.sigma = sigma
+        self.u = u
+        self.l = l
+
+    def __call__(self, net, n_scenarios, scenarios_log):
+        """Generate correlated load profiles for a power grid based on aggregated load data."""
+
+        with open(scenarios_log, "a") as f:
+            f.write("u=" + str(self.u) + "\n")
+            f.write("l=" + str(self.l) + "\n")
+
+        # Get the bus indices from the network and compute load for each bus
+        bus_indices = net.bus.index.values
+
+        p_mw_array = np.array(
+            [net.load.loc[net.load["bus"] == bus, "p_mw"].sum() for bus in bus_indices]
+        )
+        q_mvar_array = np.array(
+            [
+                net.load.loc[net.load["bus"] == bus, "q_mvar"].sum()
+                for bus in bus_indices
+            ]
+        )
+        # global scaling factor shared among all loads in the grid for a sample
+        global_scale = np.random.uniform(low=self.l, high=self.u, size=n_scenarios) 
+
+        load_profile_pmw = p_mw_array[:, np.newaxis] * global_scale
+        noise = np.random.uniform(
+            1 - self.sigma, 1 + self.sigma, size=load_profile_pmw.shape
+        )  # Add uniform noise
+        load_profile_pmw *= noise
+
+        load_profile_qmvar = q_mvar_array[:, np.newaxis] * global_scale
+        noise = np.random.uniform(
+                1 - self.sigma, 1 + self.sigma, size=load_profile_qmvar.shape
+            )  # Add uniform noise
+        load_profile_qmvar *= noise
+       
+        # Stack profiles along the last dimension
+        load_profiles = np.stack((load_profile_pmw, load_profile_qmvar), axis=-1)
+        buses_with_no_load_element = ~np.isin(
+            range(net.bus.shape[0]), net.load.bus.values
+        )
+        
+        assert (
+            (load_profiles[buses_with_no_load_element, :] == 0).all()
+        ).all(), (
+            "there is a bus that has no load element but that has a load assigned to it"
+        )
+
+        return load_profiles
