@@ -22,4 +22,4 @@ jobs:
 
       - name: Lint with flake8 #lint the code to check for PEP 8 compliance
         run: |
-          flake8 
+          flake8 --count  --show-source --statistics 
