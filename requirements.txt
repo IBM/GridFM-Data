@@ -10,3 +10,4 @@ matpowercaseframes
 numba
 requests
 flake8
+bandit
