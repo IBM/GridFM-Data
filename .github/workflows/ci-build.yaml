@@ -23,11 +23,17 @@ jobs:
       - name: Lint with flake8 #lint the code to check for PEP 8 compliance
         run: |
           flake8 --count  --show-source --statistics
-          
+
   security:
       runs-on: ubuntu-latest
       container: python:3.9-slim
+      
       steps:
+        - name: Install dependencies #first install all the things you will need
+          run: |
+            python -m pip install --upgrade pip wheel
+            pip install -r requirements.txt
+
         - name: Security Checks
           run: |
             bandit -r .
