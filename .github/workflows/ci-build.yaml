@@ -2,10 +2,10 @@ name: CI Build
 on:
   push:
     branches:
-      - docker
+      - feature/cipipeline
   pull_request:
     branches:
-      - docker
+      - feature/cipipeline
 jobs:
   build:
     runs-on: ubuntu-latest
