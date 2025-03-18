@@ -28,12 +28,15 @@ jobs:
       runs-on: ubuntu-latest
       container: python:3.9-slim
       
-      steps:
-        - name: Install dependencies #first install all the things you will need
-          run: |
-            python -m pip install --upgrade pip wheel
-            pip install -r requirements.txt
+      steps: 
+      - name: Checkout
+        uses: actions/checkout@v2
 
-        - name: Security Checks
-          run: |
-            bandit -r .
+      - name: Install dependencies #first install all the things you will need
+        run: |
+          python -m pip install --upgrade pip wheel
+          pip install -r requirements.txt
+
+      - name: Security Checks
+        run: |
+          bandit -r .
