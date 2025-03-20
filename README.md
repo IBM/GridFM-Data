@@ -61,7 +61,7 @@ python dist_generate_pf_data.py --config path/to/config.yaml --data_path /path/t
 |                          | `change_reactive_power`      | bool     | If true, changes reactive power of loads. If false, keeps the ones from the case file. Used when `generator` is `agg_load_profile`. |
 |                          | `global_range`               | float    | Range of the global scaling factor. Used to set the lower bound of the scaling factor. Used when `generator` is `agg_load_profile` or `correlated_scaler`. |
 |                          | `max_scaling_factor`         | float    | Max upper bound of the global scaling factor. Used when `generator` is `agg_load_profile` or `correlated_scaler`.        |
-|                          | `step_size`                  | float    | Step size when finding the upper bound of the global scaling factor. Used when `generator` is `agg_load_profile` or `correlated_scaler`. |
+|                          | `step_size`                  | float    | Step size when finding the upper bound of the global scaling factor. Used when `generator` is `agg_load_profile` or. |
 |                          | `start_scaling_factor`       | float    | Initial value of the global scaling factor. Used when `generator` is `agg_load_profile` or `correlated_scaler`.          |
 | **topology_perturbation**| `type`                       | str      | Type of topology generator; options: `n_minus_k`, `random`, `overloaded`, `none`.                  |
 |                          | `k`                          | int      | Maximum number of components to drop in each perturbation; used when `type` is `n_minus_k` or `random`. |
