@@ -1,6 +1,6 @@
 nbformat
 matplotlib
-pandapower
+pandapower==2.14.10
 plotly
 pandas
 numpy
@@ -9,3 +9,4 @@ pathlib
 matpowercaseframes
 numba
 requests
+PyYAML

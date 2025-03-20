@@ -3,16 +3,16 @@ network:
   source: "pglib" # Data source for the grid; options: pglib, pandapower, file
 
 load:
-  generator: "agg_load_profile" # Name of the load generator
+  generator: "correlated_scaler" # Name of the load generator
   agg_profile: "powergraph_ieee118" # Name of the aggregated load profile
   scenarios: 15000 # Number of different load scenarios to generate
-  sigma: 0.05 # max local noise 
+  sigma: 0.15 # max local noise 
   change_reactive_power: true # If true, changes reactive power of loads. If False, keeps the ones from the case file
   global_range: 0.4 # Range of the global scaling factor. used to set the lower bound of the scaling factor
   max_scaling_factor: 4.0 # Max upper bound of the global scaling factor
   step_size: 0.025 # Step size when finding the upper bound of the global scaling factor
   start_scaling_factor: 0.8 # Initial value of the global scaling factor
-
+  
 topology_perturbation:
   k: 10 # Maximum number of components to drop in each perturbation
   n_topology_variants: 10 # Number of unique perturbed topologies per scenario
