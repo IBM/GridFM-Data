@@ -63,8 +63,6 @@ python dist_generate_pf_data.py --config path/to/config.yaml --data_path /path/t
 |                          | `max_scaling_factor`         | float    | Max upper bound of the global scaling factor. Used when `generator` is `agg_load_profile`.        |
 |                          | `step_size`                  | float    | Step size when finding the upper bound of the global scaling factor. Used when `generator` is `agg_load_profile`. |
 |                          | `start_scaling_factor`       | float    | Initial value of the global scaling factor. Used when `generator` is `agg_load_profile`.          |
-|                          | `upper_limit`       | float    | Global upper bound for grid. Used when `generator` is `correlated_scaler`.          |
-|                          | `lower_limit`       | float    | Global lower bound for grid. Used when `generator` is `correlated_scaler`.          |
 | **topology_perturbation**| `type`                       | str      | Type of topology generator; options: `n_minus_k`, `random`, `overloaded`, `none`.                  |
 |                          | `k`                          | int      | Maximum number of components to drop in each perturbation; used when `type` is `n_minus_k` or `random`. |
 |                          | `n_topology_variants`        | int      | Number of unique perturbed topologies per scenario; used when `type` is `n_minus_k`, `random`, or `overloaded`. |

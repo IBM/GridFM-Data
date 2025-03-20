@@ -326,24 +326,40 @@ class Powergraph(LoadScenarioGeneratorBase):
         return load_profiles
     
 class LoadScenariosFromCorrelatedScaling(LoadScenarioGeneratorBase):
-    """Load scenario generator using correlated load profiles."""
+    """Load scenario generator using global and local load scaling."""
 
     def __init__(
         self,
         sigma,
-        u, 
-        l
+        global_range,
+        max_scaling_factor,
+        step_size,
+        start_scaling_factor,
     ):
         self.sigma = sigma
-        self.u = u
-        self.l = l
+        self.global_range = global_range
+        self.max_scaling_factor = max_scaling_factor
+        self.step_size = step_size
+        self.start_scaling_factor = start_scaling_factor
 
     def __call__(self, net, n_scenarios, scenarios_log):
         """Generate correlated load profiles for a power grid based on aggregated load data."""
+        if self.start_scaling_factor - self.global_range < 0:
+            raise ValueError(
+                "The start scaling factor must be larger than the global range."
+            )
+
+        u = self.find_largest_scaling_factor(
+            net,
+            max_scaling=self.max_scaling_factor,
+            step_size=self.step_size,
+            start=self.start_scaling_factor,
+        )
+        l = u - self.global_range
 
         with open(scenarios_log, "a") as f:
-            f.write("u=" + str(self.u) + "\n")
-            f.write("l=" + str(self.l) + "\n")
+            f.write("u=" + str(u) + "\n")
+            f.write("l=" + str(l) + "\n")
 
         # Get the bus indices from the network and compute load for each bus
         bus_indices = net.bus.index.values
@@ -358,7 +374,7 @@ class LoadScenariosFromCorrelatedScaling(LoadScenarioGeneratorBase):
             ]
         )
         # global scaling factor shared among all loads in the grid for a sample
-        global_scale = np.random.uniform(low=self.l, high=self.u, size=n_scenarios) 
+        global_scale = np.random.uniform(low=l, high=u, size=n_scenarios) 
 
         load_profile_pmw = p_mw_array[:, np.newaxis] * global_scale
         noise = np.random.uniform(

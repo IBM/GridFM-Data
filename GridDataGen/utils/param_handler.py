@@ -132,6 +132,7 @@ def get_load_scenario_generator(args) -> LoadScenarioGeneratorBase:
     if args.load.generator == "correlated_scaler":
         return LoadScenariosFromCorrelatedScaling(
             args.load.sigma,
-            args.load.upper_limit,
-            args.load.lower_limit,
-    )
+            args.load.global_range,
+            args.load.max_scaling_factor,
+            args.load.step_size,
+            args.load.start_scaling_factor)
