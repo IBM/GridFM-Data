@@ -1,3 +1,8 @@
+# WARNING: This is an old repository. The code is outdated and no longer maintained. The latest and working version of this data generation library is available [here](https://github.com/gridfm/gridfm-datakit)
+
+---
+
+
 # Power Flow Data Generation Script
 
 This library generates power flow data with configurable parameters for load scenarios and topology perturbations.
